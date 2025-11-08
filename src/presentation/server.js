@@ -70,7 +70,7 @@ app.listen(PORT, () => {
   console.info('Cumplimiento normativo:');
   console.info('  • ISO/IEC 12207:2017 - Implementation Process');
   console.info('  • ISO/IEC/IEEE 29148:2018 - Requirements Engineering');
-  console.info('  • Clean Architecture Principles');
+  console.info('  • Clean Architecture ');
   console.info('═══════════════════════════════════════════════════════');
 });
 
