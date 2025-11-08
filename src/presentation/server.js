@@ -77,6 +77,21 @@ app.use(errorMiddleware);
  * Escucha en el puerto configurado y muestra información de inicio
  */
 app.listen(PORT, () => {
+<<<<<<< HEAD
+  console.info('═══════════════════════════════════════════════════════');
+  console.info('  SKYDATA Backend API - Sistema de Monitoreo Ambiental');
+  console.info('═══════════════════════════════════════════════════════');
+  console.info(`✓ Servidor iniciado en puerto ${PORT}`);
+  console.info(`✓ Entorno: ${process.env.NODE_ENV || 'development'}`);
+  console.info(`✓ Health check: http://localhost:${PORT}/health`);
+  console.info(`✓ API datos: http://localhost:${PORT}/api/datos`);
+  console.info('═══════════════════════════════════════════════════════');
+  console.info('Cumplimiento normativo:');
+  console.info('  • ISO/IEC 12207:2017 - Implementation Process');
+  console.info('  • ISO/IEC/IEEE 29148:2018 - Requirements Engineering');
+  console.info('  • Clean Architecture ');
+  console.info('═══════════════════════════════════════════════════════');
+=======
   console.info('═══════════════════════════════════════════════════');
   console.info('  SKYDATA Backend API');
   console.info('═══════════════════════════════════════════════════');
@@ -84,6 +99,7 @@ app.listen(PORT, () => {
   console.info(`✓ Health: http://localhost:${PORT}/health`);
   console.info(`✓ API: http://localhost:${PORT}/api/datos`);
   console.info('═══════════════════════════════════════════════════');
+>>>>>>> 30c7af37dfc9e437aa526f8378c64656d9c3b134
 });
 
 // Exporta la aplicación para testing y reutilización
