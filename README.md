@@ -1,56 +1,66 @@
-# SKYDATA Backend - API REST
+# SKYDATA Backend - Scaffolding
 
-## Descripción del Proyecto
+## Estado de la Rama Main
 
-Backend API REST para el Sistema de Visualización de Información Ambiental de Bogotá (SKYDATA). 
-Provee datos ambientales en formato GeoJSON (RFC 7946) mediante endpoints REST.
+⚠️ **Esta rama contiene SOLO el scaffolding inicial del proyecto.**
 
-**Proyecto Académico** - Universidad Distrital Francisco José de Caldas  
-**Curso**: Ingeniería de Software II  
-**Propósito**: Demostración de competencias en ingeniería de software siguiendo estándares internacionales
+**El código funcional está en las branches de features.**
 
-## Cumplimiento Normativo
-
-Este proyecto ha sido desarrollado siguiendo los siguientes estándares internacionales:
-
-- **ISO/IEC/IEEE 29148:2018**: Requirements Engineering
-- **ISO/IEC 12207:2017**: Software Life Cycle Processes (Sec 6.4.6.4: Implementation Process)
-- **ISO/IEC/IEEE 42010:2011**: Architecture Description
-- **TOGAF 9.2**: Architecture Framework
-- **ISO/IEC 25010:2011**: Systems and Software Quality Models
-- **ISO/IEC 5055:2021**: Software Measurement
-
-## Arquitectura Clean Architecture
+## Estructura del Proyecto (Scaffolding)
 
 ```
 backend/
 ├── src/
-│   ├── domain/              # Entidades y lógica de negocio
-│   ├── application/         # Casos de uso
-│   ├── infrastructure/      # Implementaciones externas
-│   └── presentation/        # API REST
-├── data/                    # Datos mock
-├── tests/                   # Pruebas
-└── docs/                    # Documentación
+│   ├── domain/              # Clean Architecture - Domain Layer
+│   ├── application/         # Clean Architecture - Application Layer
+│   ├── infrastructure/      # Clean Architecture - Infrastructure Layer
+│   └── presentation/        # Clean Architecture - Presentation Layer
+├── data/                    # Datos mock (en branches)
+├── tests/                   # Pruebas (en branches)
+├── docs/                    # Documentación
+├── .gitignore
+├── .eslintrc.json           # ISO 5055:2021
+├── package.json
+└── README.md
 ```
 
-## Instalación
+## Branches con Implementaciones
+
+| Branch | Issue | Responsable | Descripción |
+|--------|-------|-------------|-------------|
+| `feature/SwR-F08-datos-mock-geojson` | #3 | @carlosperdomo376 | Datos Mock GeoJSON |
+| `feature/SwR-I03-I04-server-cors` | #4 | @jeissonmp15 | Servidor HTTP + CORS |
+| `feature/SwR-ST01-validators-geojson` | #5 | @giancarloprieto | Validadores GeoJSON |
+| `feature/SwR-F05-F06-endpoint-rest` | #1 | @eab1362 | Endpoint REST |
+| `feature/SwR-V01-unit-tests` | #6 | @carlosperdomo376 | Tests Unitarios |
+| `feature/SwR-M01-documentation` | #2 | @eab1362 | Documentación |
+
+## Cómo Trabajar
+
+### Ver tu branch asignada:
 
 ```bash
+git clone https://github.com/SKYDATA-BOGOTA/skydata-backend.git
+cd skydata-backend
+git checkout feature/SwR-XXX-tu-feature
 npm install
 npm run dev
 ```
 
-## Requisitos Implementados
+### Ver todos los issues:
+https://github.com/SKYDATA-BOGOTA/skydata-backend/issues
 
-| Requisito | Descripción | Implementación |
-|-----------|-------------|----------------|
-| SwR-F05 | Endpoint REST | `/api/datos` |
-| SwR-F06 | Formato GeoJSON | RFC 7946 |
-| SwR-F08 | Datos Mock | `data/mock-data.json` |
-| SwR-I03 | Servidor HTTP | Express.js |
-| SwR-I04 | CORS | Config CORS |
+### Ver el proyecto:
+https://github.com/orgs/SKYDATA-BOGOTA/projects/1
 
-## Licencia
+## Cumplimiento Normativo
 
-Proyecto Académico - Universidad Distrital
+- ISO/IEC 12207:2017: Implementation Process
+- ISO/IEC/IEEE 29148:2018: Requirements Engineering
+- Clean Architecture (Robert C. Martin)
+
+## Organización
+
+- **Repositorio Frontend**: https://github.com/SKYDATA-BOGOTA/skydata-frontend
+- **Issues**: Ver arriba
+- **Proyecto**: https://github.com/orgs/SKYDATA-BOGOTA/projects/1
