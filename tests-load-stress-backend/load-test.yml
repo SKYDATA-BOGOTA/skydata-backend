@@ -1,0 +1,83 @@
+# Pruebas de Carga según ISO/IEC 25010:2011 8.2.3 (Capacity)
+# Base Normativa: ISO/IEC 25010:2011 8.2.3, ISO/IEC 25023:2016 5.2
+# Trazabilidad: SwR-R01 → ISO/IEC 25010:2011 8.2.3
+#
+# Métricas QME/QM según ISO 25023:2016 5.2:
+# - QM_TiempoRespuestaCarga: < 500ms
+# - QM_Throughput: > 10 req/s
+# - QM_TasaErroresCarga: < 1%
+
+config:
+  target: "http://localhost:3001"
+  phases:
+    # Escenario 1: Carga Normal (10 usuarios simultáneos)
+    # Objetivo: Verificar comportamiento bajo carga normal
+    - duration: 120  # 2 minutos
+      arrivalRate: 10
+      rampTo: 10
+      name: "Carga Normal - 10 usuarios"
+    
+    # Escenario 2: Carga Media (50 usuarios simultáneos)
+    # Objetivo: Verificar que tiempos de respuesta se mantienen < 500ms
+    - duration: 180  # 3 minutos
+      arrivalRate: 50
+      rampTo: 50
+      name: "Carga Media - 50 usuarios"
+    
+    # Escenario 3: Carga Alta (100 usuarios simultáneos)
+    # Objetivo: Verificar límites de capacidad
+    - duration: 300  # 5 minutos
+      arrivalRate: 100
+      rampTo: 100
+      name: "Carga Alta - 100 usuarios"
+  
+  # Configuración de métricas según ISO 25023:2016
+  processor: "./load-test-processor.js"
+  
+  # Umbrales según ISO 25023:2016 5.2
+  ensure:
+    maxErrorRate: 1  # < 1% de errores (QM_TasaErroresCarga)
+    p95: 500         # < 500ms en percentil 95 (QM_TiempoRespuestaCarga)
+    p99: 1000        # < 1000ms en percentil 99
+
+scenarios:
+  - name: "Prueba de endpoints críticos"
+    weight: 70
+    flow:
+      # GET /stations - Endpoint principal
+      - get:
+          url: "/stations"
+          expect:
+            - statusCode: 200
+            - contentType: application/json
+            - hasProperty: "type"
+          capture:
+            - json: "$.features.length"
+              as: "stationCount"
+      
+      # Verificar que hay datos
+      - think: 1
+      
+      # GET /health - Health check
+      - get:
+          url: "/health"
+          expect:
+            - statusCode: 200
+  
+  - name: "Prueba de endpoint específico"
+    weight: 30
+    flow:
+      # Primero obtener todas las estaciones
+      - get:
+          url: "/stations"
+          capture:
+            - json: "$.features[0].properties.id"
+              as: "stationId"
+      
+      # Luego obtener una estación específica (si existe)
+      - think: 1
+      - get:
+          url: "/stations/{{ stationId }}"
+          ifTrue: "stationId"
+          expect:
+            - statusCode: 200

@@ -1,0 +1,18 @@
+# Reportes generados por Artillery
+*.json
+*.html
+*.log
+
+# Directorios de reportes
+test-results/
+reports/
+artillery-reports/
+
+# Node modules (si se instalan localmente)
+node_modules/
+
+# Archivos temporales
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
