@@ -1,0 +1,91 @@
+# Pruebas de Estrés según ISO/IEC 25010:2011 8.2.3 (Capacity)
+# Base Normativa: ISO/IEC 25010:2011 8.2.3, ISO/IEC 25023:2016 5.2
+# Trazabilidad: SwR-R01 → ISO/IEC 25010:2011 8.2.3
+#
+# Métricas QME/QM según ISO 25023:2016 5.2:
+# - QM_CapacidadMaxima: Número máximo de usuarios simultáneos
+# - QM_Degradacion: Porcentaje de degradación bajo estrés
+# - QM_TiempoRecuperacion: Tiempo de recuperación después de sobrecarga
+
+config:
+  target: "http://localhost:3001"
+  phases:
+    # Escenario 1: Estrés Gradual
+    # Objetivo: Incrementar carga gradualmente e identificar punto de fallo
+    - duration: 60   # 1 minuto
+      arrivalRate: 10
+      name: "Inicio gradual"
+    
+    - duration: 120  # 2 minutos
+      arrivalRate: 10
+      rampTo: 50
+      name: "Incremento a 50 usuarios"
+    
+    - duration: 120  # 2 minutos
+      arrivalRate: 50
+      rampTo: 100
+      name: "Incremento a 100 usuarios"
+    
+    - duration: 180  # 3 minutos
+      arrivalRate: 100
+      rampTo: 150
+      name: "Incremento a 150 usuarios"
+    
+    - duration: 180  # 3 minutos
+      arrivalRate: 150
+      rampTo: 200
+      name: "Incremento a 200 usuarios (punto de estrés máximo)"
+    
+    # Escenario 2: Estrés Pico
+    # Objetivo: Verificar recuperación después de sobrecarga
+    - duration: 120  # 2 minutos
+      arrivalRate: 150
+      name: "Carga pico sostenida - 150 usuarios"
+    
+    # Fase de recuperación
+    - duration: 60   # 1 minuto
+      arrivalRate: 150
+      rampTo: 10
+      name: "Recuperación gradual"
+  
+  # Métricas según ISO 25023:2016
+  processor: "./stress-test-processor.js"
+
+scenarios:
+  - name: "Estrés en endpoints críticos"
+    weight: 80
+    flow:
+      # GET /stations - Endpoint principal bajo estrés
+      - get:
+          url: "/stations"
+          expect:
+            - statusCode: 200
+            - contentType: application/json
+      
+      # Pequeña pausa para simular usuario real
+      - think: 0.5
+      
+      # GET /health - Verificar disponibilidad bajo estrés
+      - get:
+          url: "/health"
+  
+  - name: "Estrés en múltiples endpoints"
+    weight: 20
+    flow:
+      # Simular navegación completa bajo estrés
+      - get:
+          url: "/stations"
+          capture:
+            - json: "$.features[0].properties.id"
+              as: "firstStationId"
+      
+      - think: 0.5
+      
+      - get:
+          url: "/stations/{{ firstStationId }}"
+          ifTrue: "firstStationId"
+      
+      - think: 0.5
+      
+      - get:
+          url: "/health"
