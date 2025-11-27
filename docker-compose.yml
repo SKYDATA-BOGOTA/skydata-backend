@@ -14,7 +14,8 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=3000
-      - CORS_ORIGIN=http://localhost:8080
+      # Permitir peticiones desde el frontend en la IP pública (puerto 8080)
+      - CORS_ORIGIN=http://18.234.36.47:8080
       - DATA_FILE=/app/data/mock-data.json
     networks:
       - skydata-network
