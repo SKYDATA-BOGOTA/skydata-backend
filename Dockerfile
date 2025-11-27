@@ -1,5 +1,5 @@
 # Dockerfile para Backend SKYDATA
-# Base Normativa: ISO/IEC 25010:2011 8.8.1 (Adaptability), 8.8.2 (Installability)
+# Base Normativa: ISO/IEC 25010:2011 8.8.1 (Adaptability)
 
 FROM node:18-alpine
 
@@ -9,27 +9,25 @@ WORKDIR /app
 # Copiar archivos de configuración
 COPY package*.json ./
 
-# Instalar dependencias
-RUN npm ci --only=production
+# Instalar dependencias (incluyendo dev dependencies si es necesario para pruebas)
+RUN npm install
 
 # Copiar código fuente
 COPY . .
 
 # Crear usuario no-root para seguridad
 RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001
+    adduser -S nodejs -u 1001 && \
+    chown -R nodejs:nodejs /app
 
-# Cambiar propietario de archivos
-RUN chown -R nodejs:nodejs /app
 USER nodejs
 
 # Exponer puerto
-EXPOSE 3001
+EXPOSE 3000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3001/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
+  CMD node -e "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
 
 # Comando para iniciar servidor
-CMD ["node", "src/presentation/server.js"]
-
+CMD ["npm", "start"]

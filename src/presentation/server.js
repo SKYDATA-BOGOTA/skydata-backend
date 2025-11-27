@@ -31,14 +31,16 @@ app.use('/api', datosRoutes);
 app.use(errorMiddleware);
 
 // Start server
-app.listen(PORT, () => {
-  console.info('═══════════════════════════════════════════════════════');
-  console.info('  SKYDATA Backend API');
-  console.info('═══════════════════════════════════════════════════════');
-  console.info(`✓ Servidor en puerto ${PORT}`);
-  console.info(`✓ Health: http://localhost:${PORT}/health`);
-  console.info(`✓ API: http://localhost:${PORT}/api/datos`);
-  console.info('═══════════════════════════════════════════════════════');
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.info('═══════════════════════════════════════════════════════');
+    console.info('  SKYDATA Backend API');
+    console.info('═══════════════════════════════════════════════════════');
+    console.info(`✓ Servidor en puerto ${PORT}`);
+    console.info(`✓ Health: http://localhost:${PORT}/health`);
+    console.info(`✓ API: http://localhost:${PORT}/api/datos`);
+    console.info('═══════════════════════════════════════════════════════');
+  });
+}
 
 module.exports = app;

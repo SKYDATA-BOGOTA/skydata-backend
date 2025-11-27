@@ -12,7 +12,7 @@
  */
 
 const request = require('supertest');
-const app = require('../src/presentation/server'); // Ajustar ruta según estructura
+const app = require('../../src/presentation/server'); // Ajustar ruta según estructura
 
 describe('Tolerancia a Fallos', () => {
   /**

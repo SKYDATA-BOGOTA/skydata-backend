@@ -13,15 +13,30 @@
  */
 
 const request = require('supertest');
-const app = require('../src/presentation/server'); // Ajustar ruta según estructura
+const app = require('../../src/presentation/server'); // Ajustar ruta según estructura
 
 describe('Interoperabilidad API', () => {
+  let server;
+  let baseUrl;
+
+  beforeAll((done) => {
+    server = app.listen(0, () => {
+      const port = server.address().port;
+      baseUrl = `http://localhost:${port}`;
+      done();
+    });
+  });
+
+  afterAll((done) => {
+    server.close(done);
+  });
+
   /**
    * Test COMP-API-001: La API funciona con fetch API
    * ISO/IEC 25010:2011 8.5.1
    */
   test('COMP-API-001: La API responde correctamente a peticiones fetch', async () => {
-    const response = await fetch('http://localhost:3001/api/datos');
+    const response = await fetch(`${baseUrl}/api/datos`);
     
     expect(response.ok).toBe(true);
     expect(response.status).toBe(200);
@@ -37,7 +52,7 @@ describe('Interoperabilidad API', () => {
    */
   test('COMP-API-002: La API responde correctamente a peticiones axios', async () => {
     const axios = require('axios');
-    const response = await axios.get('http://localhost:3001/api/datos');
+    const response = await axios.get(`${baseUrl}/api/datos`);
     
     expect(response.status).toBe(200);
     expect(response.data).toHaveProperty('type');
@@ -111,4 +126,3 @@ describe('Interoperabilidad API', () => {
     });
   });
 });
-

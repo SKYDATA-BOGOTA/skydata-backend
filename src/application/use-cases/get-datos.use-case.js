@@ -5,15 +5,11 @@ class GetDatosUseCase {
   }
 
   async execute() {
-    try {
-      const datos = await this.dataRepository.getAllData();
-      if (!datos || !datos.features || datos.features.length === 0) {
-        throw new Error('No hay datos disponibles');
-      }
-      return datos;
-    } catch (error) {
-      throw error;
+    const datos = await this.dataRepository.getAllData();
+    if (!datos || !datos.features || datos.features.length === 0) {
+      throw new Error('No hay datos disponibles');
     }
+    return datos;
   }
 
   async executeById(id) {
