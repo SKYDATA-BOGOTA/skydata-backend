@@ -1,66 +1,92 @@
-# SKYDATA Backend - Scaffolding
+# SKYDATA Backend
 
-## Estado de la Rama Main
+![CI/CD Pipeline](https://github.com/SKYDATA-BOGOTA/skydata-backend/actions/workflows/ci-cd-iso-25000.yml/badge.svg)
 
-⚠️ **Esta rama contiene SOLO el scaffolding inicial del proyecto.**
+## 📋 Descripción
 
-**El código funcional está en las branches de features.**
+Backend del proyecto SKYDATA - Sistema de visualización de datos de estaciones de monitoreo ambiental de Bogotá.
 
-## Estructura del Proyecto (Scaffolding)
+## 🏗️ Arquitectura
+
+Implementado siguiendo **Clean Architecture**:
 
 ```
-backend/
-├── src/
-│   ├── domain/              # Clean Architecture - Domain Layer
-│   ├── application/         # Clean Architecture - Application Layer
-│   ├── infrastructure/      # Clean Architecture - Infrastructure Layer
-│   └── presentation/        # Clean Architecture - Presentation Layer
-├── data/                    # Datos mock (en branches)
-├── tests/                   # Pruebas (en branches)
-├── docs/                    # Documentación
-├── .gitignore
-├── .eslintrc.json           # ISO 5055:2021
-├── package.json
-└── README.md
+src/
+├── domain/          # Entidades y reglas de negocio
+├── application/     # Casos de uso
+├── infrastructure/  # Implementaciones externas
+└── presentation/    # Controladores y rutas (Express)
 ```
 
-## Branches con Implementaciones
-
-| Branch | Issue | Responsable | Descripción |
-|--------|-------|-------------|-------------|
-| `feature/SwR-F08-datos-mock-geojson` | #3 | @carlosperdomo376 | Datos Mock GeoJSON |
-| `feature/SwR-I03-I04-server-cors` | #4 | @jeissonmp15 | Servidor HTTP + CORS |
-| `feature/SwR-ST01-validators-geojson` | #5 | @giancarloprieto | Validadores GeoJSON |
-| `feature/SwR-F05-F06-endpoint-rest` | #1 | @eab1362 | Endpoint REST |
-| `feature/SwR-V01-unit-tests` | #6 | @carlosperdomo376 | Tests Unitarios |
-| `feature/SwR-M01-documentation` | #2 | @eab1362 | Documentación |
-
-## Cómo Trabajar
-
-### Ver tu branch asignada:
+## 🚀 Instalación
 
 ```bash
+# Clonar repositorio
 git clone https://github.com/SKYDATA-BOGOTA/skydata-backend.git
 cd skydata-backend
-git checkout feature/SwR-XXX-tu-feature
+
+# Instalar dependencias
 npm install
+
+# Ejecutar en desarrollo
 npm run dev
+
+# Ejecutar en producción
+npm start
 ```
 
-### Ver todos los issues:
-https://github.com/SKYDATA-BOGOTA/skydata-backend/issues
+## 🧪 Pruebas
 
-### Ver el proyecto:
-https://github.com/orgs/SKYDATA-BOGOTA/projects/1
+```bash
+# Pruebas unitarias
+npm test
 
-## Cumplimiento Normativo
+# Pruebas con cobertura
+npm run test:coverage
 
-- ISO/IEC 12207:2017: Implementation Process
-- ISO/IEC/IEEE 29148:2018: Requirements Engineering
-- Clean Architecture (Robert C. Martin)
+# Pruebas de integración
+npm run test:integration
 
-## Organización
+# Pruebas de aceptación
+npm run test:acceptance
 
-- **Repositorio Frontend**: https://github.com/SKYDATA-BOGOTA/skydata-frontend
-- **Issues**: Ver arriba
-- **Proyecto**: https://github.com/orgs/SKYDATA-BOGOTA/projects/1
+# Pruebas de seguridad
+npm run test:security
+
+# Pruebas de rendimiento
+npm run test:performance
+
+# Pruebas de carga (Artillery)
+npm run test:load
+
+# Pruebas de estrés (Artillery)
+npm run test:stress
+```
+
+## 📊 Cobertura de Calidad ISO 25000
+
+| Característica | Estado | Referencia ISO |
+|----------------|--------|----------------|
+| Adecuación Funcional | ✅ | ISO 25010:2011 8.1 |
+| Eficiencia de Rendimiento | ✅ | ISO 25010:2011 8.2 |
+| Compatibilidad | ✅ | ISO 25010:2011 8.3 |
+| Fiabilidad | ✅ | ISO 25010:2011 8.5 |
+| Seguridad | ✅ | ISO 25010:2011 8.6 |
+| Mantenibilidad | ✅ | ISO 25010:2011 8.7 |
+| Portabilidad | ✅ | ISO 25010:2011 8.8 |
+
+## 🔗 API Endpoints
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/stations` | Lista todas las estaciones (GeoJSON) |
+| GET | `/stations/:id` | Obtiene una estación específica |
+| GET | `/health` | Health check del servidor |
+
+## 📄 Licencia
+
+MIT © SKYDATA-BOGOTA
+
+---
+
+**Última actualización**: 2025-11-27
